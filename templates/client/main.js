@@ -1,5 +1,5 @@
 import {createApp} from 'mantra-core';
-import initContext from './configs/context';
+import initContext from '../imports/configs/context';
 
 // modules
 

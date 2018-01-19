@@ -17,12 +17,12 @@ describe("generate command", function() {
   describe("action", function() {
     it("generates action", function() {
       generate('action', 'core:posts');
-      expect(checkFileOrDirExists('./client/modules/core/actions/posts.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/actions/posts.js')).to.equal(true);
     });
 
     it("updates an empty index.js", function() {
       generate('action', 'core:posts');
-      let indexContent = fs.readFileSync('./client/modules/core/actions/index.js', {encoding: 'utf-8'});
+      let indexContent = fs.readFileSync('./imports/modules/core/actions/index.js', {encoding: 'utf-8'});
       expect(indexContent).to.equal(
 `import posts from \'./posts\';
 
@@ -40,10 +40,10 @@ export default {
   posts
 };
 `;
-      fs.writeFileSync('./client/modules/core/actions/index.js', originalContent);
+      fs.writeFileSync('./imports/modules/core/actions/index.js', originalContent);
 
       generate('action', 'core:comments');
-      let indexContent = fs.readFileSync('./client/modules/core/actions/index.js', {encoding: 'utf-8'});
+      let indexContent = fs.readFileSync('./imports/modules/core/actions/index.js', {encoding: 'utf-8'});
       expect(indexContent).to.equal(
 `import posts from \'./posts\';
 import comments from \'./comments\';
@@ -65,11 +65,11 @@ export default {
   comments
 };
 `;
-      fs.writeFileSync('./client/modules/core/actions/index.js', originalContent);
-      fs.writeFileSync('./client/modules/core/actions/comments.js', 'dummy content');
+      fs.writeFileSync('./imports/modules/core/actions/index.js', originalContent);
+      fs.writeFileSync('./imports/modules/core/actions/comments.js', 'dummy content');
 
       generate('action', 'core:comments');
-      let indexContent = fs.readFileSync('./client/modules/core/actions/index.js', {encoding: 'utf-8'});
+      let indexContent = fs.readFileSync('./imports/modules/core/actions/index.js', {encoding: 'utf-8'});
       expect(indexContent).to.equal(
 `import posts from \'./posts\';
 import comments from \'./comments\';
@@ -83,17 +83,17 @@ export default {
 
     it("does not generate if entity name contains a dot", function() {
       generate('action', 'core:group.post');
-      expect(checkFileOrDirExists('./client/modules/core/actions/group.post.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/actions/group.post.js')).to.equal(false);
     });
 
     it("converts the entity name to snakecase for the file name", function() {
       generate('action', 'core:groupPost');
-      expect(checkFileOrDirExists('./client/modules/core/actions/group_post.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/actions/group_post.js')).to.equal(true);
     });
 
     it("generates a test file", function() {
       generate('action', 'core:flaggedComments');
-      let content = fs.readFileSync('./client/modules/core/actions/tests/flagged_comments.js', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/modules/core/actions/tests/flagged_comments.js', {encoding: 'utf-8'});
       expect(content).to.equal(
 `const {describe, it} = global;
 import {expect} from 'chai';
@@ -107,49 +107,49 @@ describe('core.actions.flagged_comments', () => {
     });
 
     it("generates a test file even though tests directory does not exist", function() {
-      fse.removeSync('./client/modules/core/actions/tests');
+      fse.removeSync('./imports/modules/core/actions/tests');
       generate('action', 'core:flaggedComments');
-      expect(checkFileOrDirExists('./client/modules/core/actions/tests/flagged_comments.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/actions/tests/flagged_comments.js')).to.equal(true);
     });
   });
 
   describe("container", function() {
     it("generates a container", function() {
       generate('container', 'core:post');
-      expect(checkFileOrDirExists('./client/modules/core/containers/post.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/containers/post.js')).to.equal(true);
     });
 
     it("generates a component", function() {
       generate('container', 'core:post');
-      expect(checkFileOrDirExists('./client/modules/core/components/post.jsx')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/components/post.jsx')).to.equal(true);
     });
 
     it("does not generate any files if entity name contains a dot", function() {
       generate('container', 'core:header.menu');
-      expect(checkFileOrDirExists('./client/modules/core/containers/header.menu.js')).to.equal(false);
-      expect(checkFileOrDirExists('./client/modules/core/components/header.menu.jsx')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/containers/header.menu.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/components/header.menu.jsx')).to.equal(false);
     });
 
     it("does not generate any files if entity name is empty", function() {
       generate('container', 'core::header');
-      expect(checkFileOrDirExists('./client/modules/core/containers/.js')).to.equal(false);
-      expect(checkFileOrDirExists('./client/modules/core/components/.js')).to.equal(false);
-      expect(checkFileOrDirExists('./client/modules/core/containers/header.js')).to.equal(false);
-      expect(checkFileOrDirExists('./client/modules/core/components/header.jsx')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/containers/.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/components/.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/containers/header.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/components/header.jsx')).to.equal(false);
     });
 
     it("converts the entity name to snakecase for the file name", function() {
       generate('container', 'core:headerMenu');
-      expect(checkFileOrDirExists('./client/modules/core/containers/header_menu.js')).to.equal(true);
-      expect(checkFileOrDirExists('./client/modules/core/components/header_menu.jsx')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/containers/header_menu.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/components/header_menu.jsx')).to.equal(true);
     });
     it("does not generates a container test file if generateContainerTests is false", function() {
       generate('container', 'core:commentList', {}, { generateContainerTests: false });
-      expect(checkFileOrDirExists('./client/modules/core/containers/tests/comment_list.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/containers/tests/comment_list.js')).to.equal(false);
     });
     it("generates a test file for the container if generateContainerTests is true", function() {
       generate('container', 'core:commentList', {}, { generateContainerTests: true });
-      let content = fs.readFileSync('./client/modules/core/containers/tests/comment_list.js', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/modules/core/containers/tests/comment_list.js', {encoding: 'utf-8'});
       expect(content).to.equal(
 `const {describe, it} = global;
 import {expect} from 'chai';
@@ -176,12 +176,12 @@ describe('core.containers.comment_list', () => {
 
     it("does not generate a test file for the component if generateComponentTests is false", function() {
       generate('container', 'core:commentList', {}, { generateComponentTests: false });
-      expect(checkFileOrDirExists('./client/modules/core/components/tests/comment_list.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/components/tests/comment_list.js')).to.equal(false);
     });
 
     it("generates a test file for the component if generateComponentTests is true", function() {
       generate('container', 'core:commentList', {}, { generateComponentTests: true });
-      let content = fs.readFileSync('./client/modules/core/components/tests/comment_list.js', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/modules/core/components/tests/comment_list.js', {encoding: 'utf-8'});
       expect(content).to.equal(
 `const {describe, it} = global;
 import {expect} from 'chai';
@@ -196,19 +196,19 @@ describe('core.components.comment_list', () => {
 
     it("does not generate storybook if not configured", function() {
       generate('container', 'core:commentList', {}, {});
-      expect(checkFileOrDirExists('./client/modules/core/components/.stories/comment_list.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/components/.stories/comment_list.js')).to.equal(false);
     });
 
     it("generates storybook if configured", function() {
       generate('container', 'core:commentList', {}, { storybook: true });
-      expect(checkFileOrDirExists('./client/modules/core/components/.stories/comment_list.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/components/.stories/comment_list.js')).to.equal(true);
     });
   });
 
   describe("component", function() {
     it("generates a stateless component by default", function() {
       generate('component', 'core:post', {}, {tabSize: 2});
-      let content = fs.readFileSync('./client/modules/core/components/post.jsx', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/modules/core/components/post.jsx', {encoding: 'utf-8'});
       expect(content).to.equal(
 `import React from 'react';
 
@@ -224,7 +224,7 @@ export default Post;
 
     it("generates a class extending React.Component if useClass option is provided", function() {
       generate('component', 'core:post', {useClass: true}, {tabSize: 2});
-      let content = fs.readFileSync('./client/modules/core/components/post.jsx', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/modules/core/components/post.jsx', {encoding: 'utf-8'});
       expect(content).to.equal(
 `import React from 'react';
 
@@ -248,22 +248,22 @@ export default Post;
 
     it("does not generate if entity name contains a dot", function() {
       generate('component', 'core:header.menu');
-      expect(checkFileOrDirExists('./client/modules/core/components/header.menu.jsx')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/components/header.menu.jsx')).to.equal(false);
     });
 
     it("converts the entity name to snakecase for the file name", function() {
       generate('component', 'core:headerMenu');
-      expect(checkFileOrDirExists('./client/modules/core/components/header_menu.jsx')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/components/header_menu.jsx')).to.equal(true);
     });
 
     it("does not generate a test file if generateComponentTests is false", function() {
       generate('component', 'core:headerMenu', {}, { generateComponentTests: false });
-      expect(checkFileOrDirExists('./client/modules/core/components/tests/header_menu.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/components/tests/header_menu.js')).to.equal(false);
     });
 
     it("generates a test file if generateComponentTests is true", function() {
       generate('component', 'core:headerMenu', {}, { generateComponentTests: true });
-      let content = fs.readFileSync('./client/modules/core/components/tests/header_menu.js', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/modules/core/components/tests/header_menu.js', {encoding: 'utf-8'});
       expect(content).to.equal(
 `const {describe, it} = global;
 import {expect} from 'chai';
@@ -278,36 +278,36 @@ describe('core.components.header_menu', () => {
 
     it("does not generate storybook if not configured", function() {
       generate('component', 'core:commentList', {}, {});
-      expect(checkFileOrDirExists('./client/modules/core/components/.stories/comment_list.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/core/components/.stories/comment_list.js')).to.equal(false);
     });
 
     it("generates storybook if configured", function() {
       generate('component', 'core:commentList', {}, { storybook: true });
-      expect(checkFileOrDirExists('./client/modules/core/components/.stories/comment_list.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/core/components/.stories/comment_list.js')).to.equal(true);
     });
   });
 
   describe("collection", function() {
     it("generates a collection", function() {
       generate('collection', 'posts');
-      expect(checkFileOrDirExists('./lib/collections/posts.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/lib/collections/posts.js')).to.equal(true);
     });
 
     it("uses collection2 if schema option is specified so", function() {
       generate('collection', 'posts', {schema: 'collection2'});
-      let content = fs.readFileSync('./lib/collections/posts.js', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/lib/collections/posts.js', {encoding: 'utf-8'});
       expect(content).to.match(/attachSchema/);
     });
 
     it("uses astronomy if schema option is specified so", function() {
       generate('collection', 'posts', {schema: 'astronomy'});
-      let content = fs.readFileSync('./lib/collections/posts.js', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/lib/collections/posts.js', {encoding: 'utf-8'});
       expect(content).to.match(/Class\.create/);
     });
 
     it("does not use collection2 if no viable schema option is provided", function() {
       generate('collection', 'posts');
-      let content = fs.readFileSync('./lib/collections/posts.js', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/lib/collections/posts.js', {encoding: 'utf-8'});
       expect(content).to.not.match(/attachSchema/);
     });
 
@@ -322,13 +322,13 @@ describe('core.components.header_menu', () => {
         ]
       };
       generate('collection', 'posts', {schema: 'collection2'}, config);
-      let content = fs.readFileSync('./lib/collections/posts.js', {encoding: 'utf-8'});
+      let content = fs.readFileSync('./imports/lib/collections/posts.js', {encoding: 'utf-8'});
       expect(content).to.not.match(/custom template for posts/);
     });
 
-    it("updates an empty lib/collections/index.js", function() {
+    it("updates an empty imports/lib/collections/index.js", function() {
       generate('collection', 'posts');
-      let indexContent = fs.readFileSync('./lib/collections/index.js', {encoding: 'utf-8'});
+      let indexContent = fs.readFileSync('./imports/lib/collections/index.js', {encoding: 'utf-8'});
       expect(indexContent).to.equal(
 `import Posts from \'./posts\';
 
@@ -339,7 +339,7 @@ export {
 `);
     });
 
-    it("updates a non-empty lib/collections/index.js", function() {
+    it("updates a non-empty imports/lib/collections/index.js", function() {
       let originalContent =
 `import Posts from \'./posts\';
 
@@ -347,10 +347,10 @@ export {
   Posts
 };
 `;
-      fs.writeFileSync('./lib/collections/index.js', originalContent);
+      fs.writeFileSync('./imports/lib/collections/index.js', originalContent);
 
       generate('collection', 'postCategories');
-      let indexContent = fs.readFileSync('./lib/collections/index.js', {encoding: 'utf-8'});
+      let indexContent = fs.readFileSync('./imports/lib/collections/index.js', {encoding: 'utf-8'});
       expect(indexContent).to.equal(
 `import Posts from \'./posts\';
 import PostCategories from \'./post_categories\';
@@ -372,11 +372,11 @@ export {
   PostCategories
 };
 `;
-      fs.writeFileSync('./lib/collections/index.js', originalContent);
-      fs.writeFileSync('./lib/collections/post_categories.js', 'dummy content');
+      fs.writeFileSync('./imports/lib/collections/index.js', originalContent);
+      fs.writeFileSync('./imports/lib/collections/post_categories.js', 'dummy content');
 
       generate('collection', 'postCategories');
-      let indexContent = fs.readFileSync('./lib/collections/index.js', {encoding: 'utf-8'});
+      let indexContent = fs.readFileSync('./imports/lib/collections/index.js', {encoding: 'utf-8'});
       expect(indexContent).to.equal(
 `import Posts from \'./posts\';
 import PostCategories from \'./post_categories\';
@@ -391,12 +391,12 @@ export {
 
     it("does not generate if entity name contains a dot", function() {
       generate('collection', 'user.info');
-      expect(checkFileOrDirExists('./lib/collections/user.info.js')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/lib/collections/user.info.js')).to.equal(false);
     });
 
     it("converts the entity name to snakecase for the file name", function() {
       generate('collection', 'userInfo');
-      expect(checkFileOrDirExists('./lib/collections/user_info.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/lib/collections/user_info.js')).to.equal(true);
     });
   });
 
@@ -561,27 +561,28 @@ export default function () {
   describe("module", function() {
     it("generates a module", function() {
       generate('module', 'comments');
-      expect(checkFileOrDirExists('./client/modules/comments')).to.equal(true);
-      expect(checkFileOrDirExists('./client/modules/comments/libs')).to.equal(true);
-      expect(checkFileOrDirExists('./client/modules/comments/actions/index.js')).to.equal(true);
-      expect(checkFileOrDirExists('./client/modules/comments/components/')).to.equal(true);
-      expect(checkFileOrDirExists('./client/modules/comments/containers/')).to.equal(true);
-      expect(checkFileOrDirExists('./client/modules/comments/configs/')).to.equal(true);
-      expect(checkFileOrDirExists('./client/modules/comments/index.js')).to.equal(true);
-      expect(checkFileOrDirExists('./client/modules/comments/routes.jsx')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/comments')).to.equal(true);
+      //expect(checkFileOrDirExists('./imports/modules/comments/libs')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/comments/actions/index.js')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/comments/components/')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/comments/containers/')).to.equal(true);
+      //expect(checkFileOrDirExists('./imports/modules/comments/configs/')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/comments/index.js')).to.equal(true);
+      //expect(checkFileOrDirExists('./imports/modules/comments/routes.jsx')).to.equal(true);
     });
 
     it("updates client/main.js", function() {
       generate('module', 'comments', {}, {});
 
       let content = fs.readFileSync('./client/main.js', {encoding: 'utf-8'});
+
       expect(content).to.equal(
 `import {createApp} from 'mantra-core';
-import initContext from './configs/context';
+import initContext from '../imports/configs/context';
 
 // modules
-import coreModule from './modules/core';
-import commentsModule from './modules/comments';
+import commentsModule from '../imports/modules/comments';
+import coreModule from '../imports/modules/core';
 
 // init context
 const context = initContext();
@@ -599,13 +600,14 @@ app.init();
       generate('module', 'comments', {}, {modulesPath: "imports/modules/foo/bar"});
 
       let content = fs.readFileSync('./client/main.js', {encoding: 'utf-8'});
+    
       expect(content).to.equal(
 `import {createApp} from 'mantra-core';
-import initContext from './configs/context';
+import initContext from '../imports/configs/context';
 
 // modules
-import coreModule from './modules/core';
 import commentsModule from '../imports/modules/foo/bar/comments';
+import coreModule from '../imports/modules/core';
 
 // init context
 const context = initContext();
@@ -621,12 +623,12 @@ app.init();
 
     it("does not generate if entity name contains a dot", function() {
       generate('module', 'group.notes');
-      expect(checkFileOrDirExists('./client/modules/group.notes/')).to.equal(false);
+      expect(checkFileOrDirExists('./imports/modules/group.notes/')).to.equal(false);
     });
 
     it("converts the module name to snakecase for the directory name", function() {
       generate('module', 'groupNotes');
-      expect(checkFileOrDirExists('./client/modules/group_notes')).to.equal(true);
+      expect(checkFileOrDirExists('./imports/modules/group_notes')).to.equal(true);
     });
   });
 });

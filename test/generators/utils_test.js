@@ -86,7 +86,7 @@ describe("getOutputPath", function() {
   const customConfig = {};
   it("returns a correct output path for collection", function() {
     let result = utils.getOutputPath(customConfig, 'collection', 'users');
-    expect(result).to.equal('./lib/collections/users.js');
+    expect(result).to.equal('./imports/lib/collections/users.js');
   });
 
   it("returns a correct output path for method", function() {
@@ -101,22 +101,22 @@ describe("getOutputPath", function() {
 
   it("returns a correct output path for action", function() {
     let result = utils.getOutputPath(customConfig, 'action', 'users', 'core');
-    expect(result).to.equal('./client/modules/core/actions/users.js');
+    expect(result).to.equal('./imports/modules/core/actions/users.js');
   });
 
   it("returns a correct output path for container", function() {
     let result = utils.getOutputPath(customConfig, 'container', 'user_list', 'core');
-    expect(result).to.equal('./client/modules/core/containers/user_list.js');
+    expect(result).to.equal('./imports/modules/core/containers/user_list.js');
   });
 
   it("returns a correct output path for component", function() {
     let result = utils.getOutputPath(customConfig, 'component', 'user_list', 'core');
-    expect(result).to.equal('./client/modules/core/components/user_list.jsx');
+    expect(result).to.equal('./imports/modules/core/components/user_list.jsx');
   });
 
   it("returns a correct output path for a storybook", function() {
     let result = utils.getOutputPath(customConfig, 'storybook', 'user_list', 'core');
-    expect(result).to.equal('./client/modules/core/components/.stories/user_list.js');
+    expect(result).to.equal('./imports/modules/core/components/.stories/user_list.js');
   });
   describe("with custom modules path", function() {
     const customConfig = {modulesPath: "foo/bar/mantra/modules"};
@@ -419,7 +419,7 @@ describe("readTemplateContent", function() {
   it("returns the default content if no config is provided", function() {
     let options = {};
     let configs = {};
-    let defaultTemplatePath = path.resolve(__dirname, '../../templates/client/modules/core/actions/generic.tt');
+    let defaultTemplatePath = path.resolve(__dirname, '../../templates/imports/modules/core/actions/generic.tt');
 
     let result = utils.readTemplateContent('action', options, configs);
     let expected = fse.readFileSync(defaultTemplatePath);

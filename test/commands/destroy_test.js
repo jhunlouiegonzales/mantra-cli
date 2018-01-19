@@ -16,29 +16,29 @@ describe("destroy command", function() {
 
   describe("action", function() {
     it("removes the action file", function() {
-      let actionPath = './client/modules/core/actions/posts.js';
+      let actionPath = './imports/modules/core/actions/posts.js';
       fse.outputFileSync(actionPath, 'dummy content');
       let indexContent =
-`import posts from './posts';
+      `import posts from './posts';
 
-export default {
-  posts
-};
+      export default {
+        posts
+      };
 `;
-      fse.outputFileSync('./client/modules/core/actions/index.js', indexContent);
+      fse.outputFileSync('./imports/modules/core/actions/index.js', indexContent);
       destroy('action', 'core:posts');
       expect((checkFileOrDirExists(actionPath))).to.equal(false);
     });
 
     it("removes the test file", function() {
-      let testPath = './client/modules/core/actions/tests/posts.js';
+      let testPath = './imports/modules/core/actions/tests/posts.js';
       fse.outputFileSync(testPath, 'dummy content');
       destroy('action', 'core:posts');
       expect((checkFileOrDirExists(testPath))).to.equal(false);
     });
 
     it("can update the index file to an empty file", function() {
-      fse.outputFileSync('./client/modules/core/actions/posts.js', 'dummy content');
+      fse.outputFileSync('./imports/modules/core/actions/posts.js', 'dummy content');
       let indexContent =
 `import posts from './posts';
 
@@ -46,10 +46,10 @@ export default {
   posts
 };
 `;
-      fse.outputFileSync('./client/modules/core/actions/index.js', indexContent);
+      fse.outputFileSync('./imports/modules/core/actions/index.js', indexContent);
       destroy('action', 'core:posts');
       let updatedContent = fs.readFileSync(
-        './client/modules/core/actions/index.js', {encoding: 'utf-8'});
+        './imports/modules/core/actions/index.js', {encoding: 'utf-8'});
       expect(updatedContent).to.equal(
 `
 export default {
@@ -59,7 +59,7 @@ export default {
     });
 
     it("updates the index file", function() {
-      fse.outputFileSync('./client/modules/core/actions/posts.js', 'dummy content');
+      fse.outputFileSync('./imports/modules/core/actions/posts.js', 'dummy content');
       let indexContent =
 `import posts from './posts';
 import users from './users';
@@ -69,10 +69,10 @@ export default {
   users
 };
 `;
-      fse.outputFileSync('./client/modules/core/actions/index.js', indexContent);
+      fse.outputFileSync('./imports/modules/core/actions/index.js', indexContent);
       destroy('action', 'core:posts');
       let updatedContent = fs.readFileSync(
-        './client/modules/core/actions/index.js', {encoding: 'utf-8'});
+        './imports/modules/core/actions/index.js', {encoding: 'utf-8'});
       expect(updatedContent).to.equal(
 `import users from './users';
 
@@ -86,18 +86,18 @@ export default {
 
   describe("component", function() {
     it("removes the component file", function() {
-      let componentPath = './client/modules/core/components/posts.jsx';
+      let componentPath = './imports/modules/core/components/posts.jsx';
       fse.outputFileSync(componentPath, 'dummy content');
-      let storyIndexFile = './client/modules/core/components/.stories/index.js';
+      let storyIndexFile = './imports/modules/core/components/.stories/index.js';
       fse.outputFileSync(storyIndexFile, 'dummy content');
       destroy('component', 'core:posts');
       expect((checkFileOrDirExists(componentPath))).to.equal(false);
     });
 
     it("removes the test file", function() {
-      let testPath = './client/modules/core/components/tests/post_list.js';
+      let testPath = './imports/modules/core/components/tests/post_list.js';
       fse.outputFileSync(testPath, 'dummy content');
-      let storyIndexFile = './client/modules/core/components/.stories/index.js';
+      let storyIndexFile = './imports/modules/core/components/.stories/index.js';
       fse.outputFileSync(storyIndexFile, 'dummy content');
       destroy('component', 'core:postList');
       expect((checkFileOrDirExists(testPath))).to.equal(false);
@@ -106,28 +106,28 @@ export default {
 
   describe("container", function() {
     it("removes the container file", function() {
-      let containerPath = './client/modules/core/containers/posts.js';
+      let containerPath = './imports/modules/core/containers/posts.js';
       fse.outputFileSync(containerPath, 'dummy content');
       destroy('container', 'core:posts');
       expect((checkFileOrDirExists(containerPath))).to.equal(false);
     });
 
     it("removes the component file", function() {
-      let componentPath = './client/modules/core/components/posts.jsx';
+      let componentPath = './imports/modules/core/components/posts.jsx';
       fse.outputFileSync(componentPath, 'dummy content');
       destroy('container', 'core:posts');
       expect((checkFileOrDirExists(componentPath))).to.equal(false);
     });
 
     it("removes the test file for container", function() {
-      let testPath = './client/modules/core/containers/tests/post_list.js';
+      let testPath = './imports/modules/core/containers/tests/post_list.js';
       fse.outputFileSync(testPath, 'dummy content');
       destroy('container', 'core:postList');
       expect((checkFileOrDirExists(testPath))).to.equal(false);
     });
 
     it("removes the test file for component", function() {
-      let testPath = './client/modules/core/components/tests/post_list.js';
+      let testPath = './imports/modules/core/components/tests/post_list.js';
       fse.outputFileSync(testPath, 'dummy content');
       destroy('container', 'core:postList');
       expect((checkFileOrDirExists(testPath))).to.equal(false);
@@ -136,14 +136,14 @@ export default {
 
   describe("collection", function() {
     it("removes the collection file", function() {
-      let collectionPath = './lib/collections/posts.js';
+      let collectionPath = './imports/lib/collections/posts.js';
       fse.outputFileSync(collectionPath, 'dummy content');
       destroy('collection', 'posts');
       expect((checkFileOrDirExists(collectionPath))).to.equal(false);
     });
 
     it("updates the index file", function() {
-      fse.outputFileSync('./lib/collections/posts.js', 'dummy content');
+      fse.outputFileSync('.imports/lib/collections/posts.js', 'dummy content');
       let indexContent =
 `import Posts from './posts';
 import Users from './users';
@@ -155,10 +155,10 @@ export default {
   Comments
 };
 `;
-      fse.outputFileSync('./lib/collections/index.js', indexContent);
+      fse.outputFileSync('./imports/lib/collections/index.js', indexContent);
       destroy('collection', 'posts');
       let updatedContent = fs.readFileSync(
-        './lib/collections/index.js', {encoding: 'utf-8'});
+        './imports/lib/collections/index.js', {encoding: 'utf-8'});
       expect(updatedContent).to.equal(
 `import Users from './users';
 import Comments from './comments';
@@ -253,18 +253,18 @@ export default function () {
       generate('module', 'comments');
       destroy('module', 'comments');
 
-      expect(checkFileOrDirExists('./client/modules/comments')).to.equal(false);
+      expect(checkFileOrDirExists('../imports/modules/comments')).to.equal(false);
     });
 
     it("updates the main.js file", function() {
       let mainFilePath = './client/main.js';
       let content =
 `import {createApp} from 'mantra-core';
-import initContext from './configs/context';
+import initContext from '../imports/configs/context';
 
 // modules
-import coreModule from './modules/core';
-import commentsModule from './modules/comments';
+import coreModule from '../imports/modules/core';
+import commentsModule from '../imports/modules/comments';
 
 // init context
 const context = initContext();
@@ -281,10 +281,10 @@ app.init();
       let updatedContent = fs.readFileSync(mainFilePath, {encoding: 'utf-8'});
       expect(updatedContent).to.equal(
 `import {createApp} from 'mantra-core';
-import initContext from './configs/context';
+import initContext from '../imports/configs/context';
 
 // modules
-import coreModule from './modules/core';
+import coreModule from '../imports/modules/core';
 
 // init context
 const context = initContext();
