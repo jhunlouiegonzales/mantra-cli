@@ -1,5 +1,5 @@
 {
-  "name": "mantra-cli",
+  "name": "bizbox-mantra-cli",
   "version": "0.7.0",
   "description": "Command line interface for building Meteor apps with Mantra",
   "bin": {
@@ -13,15 +13,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sungwoncho/mantra-cli.git"
+    "url": "git+https://github.com/jhunlouiegonzales/mantra-cli.git"
   },
   "keywords": ["meteor", "mantra", "cli"],
   "author": "Sung Won Cho <mikeswcho@gmail.com> (https://sungwoncho.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sungwoncho/mantra-cli/issues"
+    "url": "https://github.com/jhunlouiegonzales/mantra-cli/issues"
   },
-  "homepage": "https://github.com/sungwoncho/mantra-cli#readme",
+  "homepage": "https://github.com/jhunlouiegonzales/mantra-cli#readme",
   "dependencies": {
     "colors": "^1.1.2",
     "commander": "^2.9.0",
